@@ -71,4 +71,24 @@ router.get('/:applicationId', async(req,res)=>{
         return res.status(500).json({ err: 'Failed to fetch application data' })
     }
 })
+
+router.delete('/:applicationId', async(req,res)=>{
+    try {
+        const {applicationId}= req.params
+        const findApplication = await Application.findById(applicationId)
+        if (!findApplication){
+            return res.status(404).json({err: 'Application Not Found'})
+        }
+        const applicationOwner = String(findApplication.user)
+        if(applicationOwner !== req.user._id){
+            return res.status(403).json({ err: 'Only application creator can delete applications' })
+        }
+        const application = await Application.findByIdAndDelete(applicationId)
+        return res.status(200).json({application})
+        
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ err: 'Failed to fetch application data' })
+    }
+})
 module.exports = router;
