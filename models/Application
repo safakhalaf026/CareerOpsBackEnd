@@ -29,8 +29,7 @@ const applicationSchema = new mongoose.Schema({
 
   stage: {
     type: String,
-    enum: ['Applied', 'HR Screen', 'HR Interview', 'Technical Interview', 'Job Offer', 'Rejected'],
-    required: true,
+    enum: ['Applied', 'HR Screen', 'HR Interview', 'Technical Interview', 'Job Offer', 'Accepted', 'Rejected'],
     default: 'Applied',
   },
 
@@ -71,7 +70,7 @@ const applicationSchema = new mongoose.Schema({
 
   rejectedStage:{
     type: String,
-    required: true, // captured from stage before change
+    required: function(){return this.rejectedReason != null || this.nextActionDate != undefined}, // captured from stage before change
   },
 
   notes:{
