@@ -3,8 +3,8 @@ const router = express.Router()
 const Application = require('../models/Application')
 
 // defining vars
-activeStage = ['Applied','HR Screen','HR Interview','Technical Interview','Job Offer']
-completedStage = ['Accepted','Rejected']
+activeStage = ['applied', 'hr screen', 'hr interview', 'technical interview', 'job offer']
+completedStage = ['accepted','rejected']
 
 router.post('/', async(req,res)=>{
     try {
@@ -22,7 +22,33 @@ router.post('/', async(req,res)=>{
 
 router.get('/', async(req,res)=>{
     try {
-        const applications = await Application.find().populate('user')
+        const status = req.query.status?.toLowerCase()
+        const stage = req.query.stage?.toLowerCase()
+        const jobSource = req.query.source?.toLowerCase()
+
+        // all of the user's applications
+        const filter={user: req.user._id}
+
+        // status filter (active/completed)
+        if (status === 'active'){
+            filter.stage = { $in: activeStage.map(s => new RegExp(`^${s}$`, 'i')) }
+        }
+
+        if (status === 'completed'){
+            filter.stage = { $in: completedStage.map(s => new RegExp(`^${s}$`, 'i')) }
+        }
+
+        // specific stage filter 
+        if (stage){
+            filter.stage = { $regex: `^${stage}$`, $options: 'i' }
+        }
+
+        // specific source filter
+        if (jobSource){
+            filter.jobSource =  { $regex: `^${jobSource}$`, $options: 'i' }
+        }
+
+        const applications = await Application.find(filter).populate('user').sort({createdAt: -1})
         return res.status(201).json({applications})
     } catch (error) {
         console.error(error)
