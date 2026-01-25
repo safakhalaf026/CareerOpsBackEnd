@@ -7,11 +7,23 @@ const userSchema = mongoose.Schema({
     required: true,
   },
 
+  displayName: {
+    type: String,
+    required: true,
+  },
+
+    email: {
+    type: String,
+    required: true,
+  },
+
   password: {
     type: String,
     required: true,
   },
-});
+},
+  { timestamps: true }
+);
 
 // allows us to modify the json objected that gets converted from mongoDB record TO JSON obj
 userSchema.set(
