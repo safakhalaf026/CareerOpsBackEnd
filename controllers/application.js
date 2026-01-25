@@ -13,16 +13,33 @@ router.post('/', async(req,res)=>{
             user: req.user._id
         }
         const application  = await Application.create(applicationData)
-        return res.status(201).json(({application}))
+        return res.status(201).json({application})
     } catch (error) {
         console.error(error)
         return res.status(500).json({ err: 'Failed to create application' })
     }
 })
+
 router.get('/', async(req,res)=>{
     try {
         const applications = await Application.find().populate('user')
-        return res.status(201).json(({applications}))
+        return res.status(201).json({applications})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ err: 'Failed to fetch application data' })
+    }
+})
+
+router.get('/:applicationId', async(req,res)=>{
+    try {
+        const {applicationId}= req.params
+        const application = await Application.findById(applicationId).populate('user')
+        if (!application){
+            return res.status(404).json({err: 'Application Not Found'})
+        }else{
+            return res.status(201).json({application})
+        }
+        
     } catch (error) {
         console.error(error)
         return res.status(500).json({ err: 'Failed to fetch application data' })
