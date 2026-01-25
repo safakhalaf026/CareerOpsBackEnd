@@ -19,4 +19,13 @@ router.post('/', async(req,res)=>{
         return res.status(500).json({ err: 'Failed to create application' })
     }
 })
+router.get('/', async(req,res)=>{
+    try {
+        const applications = await Application.find().populate('user')
+        return res.status(201).json(({applications}))
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ err: 'Failed to fetch application data' })
+    }
+})
 module.exports = router;
