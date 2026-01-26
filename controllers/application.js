@@ -72,6 +72,36 @@ router.get('/:applicationId', async(req,res)=>{
     }
 })
 
+router.put('/:applicationId', async(req,res)=>{
+    try {
+        const {applicationId}= req.params
+        const application = await Application.findById(applicationId)
+        if (!application) return res.status(404).json({err: 'Application Not Found'})
+
+        const applicationOwner = String(application.user)
+        if(applicationOwner !== req.user._id) return res.status(403).json({ err: 'Only application creator can delete applications' })
+        
+        const prevStage = application.stage // store previous stage before updating
+        application.set(req.body)
+        const newStage = application.stage // store new stage
+        const stageChanged = newStage && newStage !== prevStage // compare values for validation (boolean)
+
+        if (stageChanged){
+            application.lastStageChangeAt = new Date()
+
+            if (newStage === 'Rejected') application.rejectedStage = prevStage
+
+            if (newStage === 'HR Screen') application.hrScreenDate = new Date()
+            
+        }
+        await application.save()
+        return res.status(200).json({application})
+    } catch (error) {
+        console.error(error)
+        return res.status(500).json({ err: 'Failed to fetch application data' })
+    }
+})
+
 router.delete('/:applicationId', async(req,res)=>{
     try {
         const {applicationId}= req.params
