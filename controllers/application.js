@@ -3,8 +3,8 @@ const router = express.Router()
 const Application = require('../models/Application')
 
 // defining vars
-activeStage = ['applied', 'hr screen', 'hr interview', 'technical interview', 'job offer']
-completedStage = ['accepted','rejected']
+const activeStage = ['Applied','HR Screen','HR Interview','Technical Interview','Job Offer']
+completedStage = ['Accepted','Rejected']
 
 router.post('/', async(req,res)=>{
     try {
