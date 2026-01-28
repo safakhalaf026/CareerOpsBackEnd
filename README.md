@@ -12,13 +12,13 @@ Beyond basic tracking, CareerOps provides a personalized analytics dashboard tha
 ---
 
 ### Dashboard Page
-![dashboard](./src/assets/CareerOpsDashboard.png)
+![dashboard](./assets/CareerOpsDashboard.png)
 
 ### All Applications view
-![allApplications](./src/assets/CareerOpsAllApplications.png)
+![allApplications](./assets/CareerOpsAllApplications.png)
 
 ### Application Details
-![applicationDetails](./src/assets/CareerOpsApplicationDetails.png)
+![applicationDetails](./assets/CareerOpsApplicationDetails.png)
 
 ---
 
@@ -91,9 +91,9 @@ Beyond basic tracking, CareerOps provides a personalized analytics dashboard tha
 
 ---
 
-## 🔗 Backend Repository
-The backend API for this project can be found here:  
-👉 **[CareerOps Backend Repository](https://github.com/safakhalaf026/CareerOpsFrontEnd)**
+## 🔗 Frontend Repository
+The frontend API for this project can be found here:  
+👉 **[CareerOps Frontend Repository](https://github.com/safakhalaf026/CareerOpsFrontEnd)**
 
 ---
 
