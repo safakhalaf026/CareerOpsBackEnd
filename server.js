@@ -32,6 +32,10 @@ app.use(isSignedIn)
 app.use('/applications', applicationCtrl)
 app.use('/useranalytics', UserAnalyticsCtrl)
 
+app.get('/test', (req,res)=>{
+  console.log(req.user)
+})
+
 app.listen(process.env.PORT || 3000, () => {
   console.log('The express app is ready!');
 });

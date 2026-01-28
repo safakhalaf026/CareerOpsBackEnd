@@ -55,7 +55,7 @@ const applicationSchema = new mongoose.Schema({
   nextActionType: {
     type: String,
     enum: ['Follow-up Email', 'Follow-up Call', 'Scheduele Meeting', 'Upcoming Interview', 'Upcoming Assessment', 'Document Submission','Thank-You Note', 'Waiting Response', 'Micellaneous Reminder'],
-    required: function(){return this.nextActionDate != null || this.nextActionDate != undefined || this.stage !== 'Rejected' },
+    required: function(){return this.stage != 'Applied' && this.stage !== 'Rejected' },
   },
 
   nextActionNote: {
