@@ -23,6 +23,13 @@ router.get('/summary', async (req, res) => {
       user: userId, // retrieves documents where userID in DB matches logged in user
       stage: { $in: activeStage } // and documents that are in the pre-defined active stage
     })
+// ======================================================================================================================================================================================
+
+    // total rejected applications
+    const totalRejectedApplications = await Application.countDocuments({ 
+      user: userId, // retrieves documents where userID in DB matches logged in user
+      stage: { $in: 'Rejected' } // and documents that are in the pre-defined active stage
+    })
 
 // ======================================================================================================================================================================================
 
@@ -137,6 +144,7 @@ router.get('/summary', async (req, res) => {
       kpis: {
         totalApplications,
         totalActiveApplications,
+        totalRejectedApplications,
         avgResponseDays: Number(avgResponseDays.toFixed(1)),
         upcomingNextActions
       },
